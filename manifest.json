@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "Dynamic YouTube Playlist Length calculator",
+    "version": "0.1",
+    "description": "An extension to calculate total duration of particular range of youtube playlist.",
+    "content_scripts": [{
+        "matches": ["https://www.youtube.com/*"],
+        "js": ["content.js"]
+    }]
+}
