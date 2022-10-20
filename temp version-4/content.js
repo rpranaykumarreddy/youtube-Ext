@@ -1,6 +1,13 @@
 console.log('Content.js');
-window.addEventListener("load", start());
+window.addEventListener("load", () => {
+    start();
+    sync(5);
+});
 var data = { name: "", titles: [], time: [] };
+
+async function sync(sec) {
+    var intTi = await setInterval(start, sec * 1000);
+}
 
 function refresh(sec) {
     setTimeout(start, sec * 1000);
@@ -22,6 +29,7 @@ function start() {
 }
 
 function makeData(pK) {
+    data = { name: "", titles: [], time: [] };
     if (pK) {
         const PlayTit = document.querySelectorAll("#title-form yt-formatted-string#text-displayed.style-scope.ytd-inline-form-renderer");
         const titDoc = document.querySelectorAll('a#video-title.yt-simple-endpoint.style-scope.ytd-playlist-video-renderer');
@@ -103,7 +111,7 @@ function makeData(pK) {
 
 
 function sendBack(data) {
-    if (!data) {
+    if (!(data.time.length)) {
         data = "Data coming";
     }
     chrome.runtime.sendMessage(data, (response) => {
