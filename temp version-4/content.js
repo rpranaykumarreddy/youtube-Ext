@@ -1,9 +1,9 @@
 console.log('Content.js');
 window.addEventListener("load", () => {
     start();
-    sync(5);
+    //sync(5);
 });
-var data = { name: "", titles: [], time: [] };
+var data = { name: "", titles: [], time: [], status: "done" };
 
 async function sync(sec) {
     var intTi = await setInterval(start, sec * 1000);
@@ -31,7 +31,13 @@ function start() {
 function makeData(pK) {
     data = { name: "", titles: [], time: [] };
     if (pK) {
-        const PlayTit = document.querySelectorAll("#title-form yt-formatted-string#text-displayed.style-scope.ytd-inline-form-renderer");
+        const cheTyPL = document.querySelectorAll('[aria-label="Edit description"]');
+        var PlayTit;
+        if (cheTyPL.length) {
+            PlayTit = document.querySelectorAll("ytd-inline-form-renderer#title-form.style-scope.ytd-playlist-sidebar-primary-info-renderer");
+        } else {
+            PlayTit = document.querySelectorAll("h1#title.style-scope.ytd-playlist-sidebar-primary-info-renderer");
+        }
         const titDoc = document.querySelectorAll('a#video-title.yt-simple-endpoint.style-scope.ytd-playlist-video-renderer');
         const time = document.querySelectorAll("span.ytd-thumbnail-overlay-time-status-renderer");
         console.log(titDoc);

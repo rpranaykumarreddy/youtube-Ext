@@ -1,17 +1,14 @@
-let msg = "wait";
+var msg = { name: "", titles: [], time: [], status: "wait" };
 set();
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("received");
-    console.log(message);
     msg = message;
-    sendResponse("Got it");
-    console.log("sent");
+    sendResponse("Thank you");
     set();
 });
 
 function set() {
     chrome.storage.local.set({ key: msg }, function() {
-        console.log('Value is set to ' + msg);
+        console.log(["BG Value Set:", msg]);
     });
 }
