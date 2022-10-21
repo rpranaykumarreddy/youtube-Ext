@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "YouTube Length calculator",
-    "version": "0.1",
+    "version": "1",
     "description": "This extension shows time taken to see the videos",
     "content_scripts": [{
         "matches": ["https://www.youtube.com/*"],

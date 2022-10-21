@@ -19,6 +19,11 @@ function getData() {
 
 document.getElementById("sat").addEventListener('change', onSelCha);
 document.getElementById("endEle").addEventListener('change', onSelCha);
+document.getElementById("GitLink").addEventListener('click', () => {
+    var newURL = "https://github.com/rpranaykumarreddy";
+    chrome.tabs.create({ url: newURL });
+
+});
 
 function onSelCha() {
     opt[0] = document.getElementById("sat").value;
@@ -56,8 +61,8 @@ function secToStr(sec) {
     let temp, min, hr, day;
     day = Math.floor(sec / 86400);
     hr = Math.floor((sec - (day * 86400)) / 3600);
-    min = Math.floor((sec - (hr * 3600)) / 60);
-    sec = Math.floor(sec - (hr * 3600) - (min * 60));
+    min = Math.floor((sec - (hr * 3600) - (day * 86400)) / 60);
+    sec = Math.floor(sec - (hr * 3600) - (min * 60) - (day * 86400));
     temp = (day ? (day + (day - 1 ? " days " : " day ")) : "") + (hr ? (hr + (hr - 1 ? " hrs " : " hr ")) : "") + (min ? (min + (min - 1 ? " mins " : " min ")) : "") + (sec + (sec - 1 ? " secs " : " sec "));
     console.trace('SecToStr is Closed');
     return temp;
