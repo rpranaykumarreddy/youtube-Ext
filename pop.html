@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Length calculator</title>
+    <script src="popup.js" defer></script>
+    <style>
+        .cblue {
+            color: #23d8f7 !important;
+        }
+        
+        .cpink {
+            color: #f33170 !important;
+        }
+        
+        .cwhite {
+            color: #f3f3f3;
+        }
+        
+        .cblack {
+            color: #414141;
+        }
+        
+        body {
+            min-width: 400px;
+            padding: 0px;
+            margin: 0px;
+            outline: none;
+            border: none;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 0px;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(29, 29, 29);
+            color: white;
+            padding: 10px 14px;
+        }
+        
+        #you-chr-ext {
+            width: inherit;
+            height: 100%;
+        }
+        
+        select,
+        option {
+            padding: 3px 8px;
+            border-radius: 5px;
+            overflow: hidden !important;
+            min-width: 350px;
+            margin: 8px;
+            font-weight: bold;
+            outline: none;
+            color: #23d8f7;
+            border: 2px solid #46616e;
+            background-color: #313131;
+        }
+        
+        option:checked {
+            color: #f33170 !important;
+            text-decoration: underline !important;
+        }
+        
+        .tebold {
+            font-weight: bold;
+        }
+        
+        .tecen {
+            text-align: center;
+        }
+        
+        span {
+            font-weight: bold;
+            color: #23d8f7 !important;
+        }
+        
+        a:link,
+        a:visited,
+        a:hover,
+        a:active {
+            color: #f33170 !important;
+            text-decoration: underline !important;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <label for="sat" class="cpink tebold">Choose the Starting Video:</label><br>
+    <select id="sat" name="sat">
+        <option value="loading">loading Videos data...</option>
+    </select>
+    <br>
+    <label for="end" class="cpink tebold">Choose the Ending Video:</label><br>
+    <select id="endEle" name="end">
+        <option value="loading">loading Videos data...</option>
+    </select>
+    <p id="output"></p>
+    <p>Videos : <span id="NumVid"></span></p>
+    <p>Average length : <span id="AvgLen"></span></p>
+    <p>Total length : <span id="TotLen"></span></p>
+    <p>At 1.25x : <span id="Tot1.25"></span></p>
+    <p>At 1.50x : <span id="Tot1.50"></span></p>
+    <p>At 1.75x : <span id="Tot1.75"></span></p>
+    <p>At 2.00x : <span id="Tot2.00"></span></p>
+    <br>
+    <footer class="tecen">Made with <span style="color:red !important">&#10084;</span> by <a href="https://github.com/rpranaykumarreddy">R Pranay Kumar
+            Reddy</a>
+    </footer><br>
+</body>
+
+</html>

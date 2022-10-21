@@ -1,55 +1,126 @@
-var st = -1,
-    ed = -1;
+console.log('Content.js');
+window.addEventListener("load", () => {
+    start();
+    //sync(5);
+});
+var data = { name: "", titles: [], time: [], status: "done" };
+
+async function sync(sec) {
+    var intTi = await setInterval(start, sec * 1000);
+}
+
+function refresh(sec) {
+    setTimeout(start, sec * 1000);
+}
 
 function start() {
-    let urlStr = window.location.href;
-    if (urlStr.includes("youtube.com/")) {
-        let playKey = urlStr.split("?")[0].includes("playlist");
-        st = window.prompt("Starting from");
-        st = Number(st);
-        ed = window.prompt("end till");
-        ed = Number(ed);
-        temp = calcLen(st, ed, playKey)
-        console.log(temp);
-        window.alert(temp)
-    }
-}
-
-function secToStr(sec) {
-    let temp, min, hr;
-    hr = Math.floor(sec / 3600);
-    min = Math.floor((sec - (hr * 3600)) / 60);
-    sec = Math.floor(sec - (hr * 3600) - (min * 60));
-    temp = hr + (hr - 1 ? " hrs " : " hr ") + min + (min - 1 ? " mins " : " min ") + sec + (sec - 1 ? " secs " : " sec ");
-    return temp;
-}
-
-function calcLen(x, y, playKey) {
-    let timeRoot;
-    if (playKey) {
-        timeRoot = document.querySelectorAll("span.ytd-thumbnail-overlay-time-status-renderer");
+    var urlStr = window.location.href;
+    var playKey;
+    playKey = urlStr.split("?")[0].includes("playlist");
+    var docChe = document.querySelectorAll('.ytd-thumbnail-overlay-time-status-renderer');
+    if (docChe.length) {
+        console.log(docChe.length, "move on");
+        makeData(playKey);
     } else {
-        timeRoot = document.querySelectorAll("ytd-playlist-panel-renderer#playlist span.ytd-thumbnail-overlay-time-status-renderer");
+        console.log(docChe.length, "time on");
+        refresh(1);
     }
-    let len = timeRoot.length;
-    let time = 0;
-    if (x > y) { return "x>y" }
-    if (x < 1) x = 1;
-    if (x - 1 > len) x = len;
-    if (y - 1 > len) y = len;
-    if (y < 1) y = x;
-    for (i = (x - 1); i < y - 1; i++) {
-        let DomT = timeRoot[i].innerText;
-        DomT.replace("\n", "").trim();
-        let temp = DomT.split(":");
-        time += Number(temp[0]) * 60 + Number(temp[1]);
-    }
-    let bw = y - x + 1;
 
-    let out = "No of videos : " + bw + "\nAverage length of video : " + secToStr(time / bw) + "\nTotal length of playlist : " + secToStr(time) +
-        "\nAt 1.25 x : " + secToStr(time / 1.25) + "\nAt 1.50 x : " + secToStr(time / 1.5) + "\nAt 1.75 x : " + secToStr(time / 1.75) + "\nAt 2.00 x : " + secToStr(time / 2);
-    console.log('calcLen is Closed');
-    return out;
 }
 
-start();
+function makeData(pK) {
+    data = { name: "", titles: [], time: [] };
+    if (pK) {
+        const cheTyPL = document.querySelectorAll('[aria-label="Edit description"]');
+        var PlayTit;
+        if (cheTyPL.length) {
+            PlayTit = document.querySelectorAll("ytd-inline-form-renderer#title-form.style-scope.ytd-playlist-sidebar-primary-info-renderer");
+        } else {
+            PlayTit = document.querySelectorAll("h1#title.style-scope.ytd-playlist-sidebar-primary-info-renderer");
+        }
+        const titDoc = document.querySelectorAll('a#video-title.yt-simple-endpoint.style-scope.ytd-playlist-video-renderer');
+        const time = document.querySelectorAll("span.ytd-thumbnail-overlay-time-status-renderer");
+        console.log(titDoc);
+        console.log(time);
+        if (titDoc.length != time.length) {
+            refresh(1);
+            return null;
+        } else {
+            data.name = PlayTit[0].innerText;
+            for (it = 0; it < titDoc.length; it++) {
+                data.titles.push(titDoc[it].innerText);
+                let DomT, temp, sum;
+                DomT = time[it].innerText;
+                DomT.replace("\n", "").trim();
+                temp = DomT.split(":");
+                sum = 0;
+                temp.reverse();
+                switch (temp.length) {
+                    case 1:
+                        sum = Number(temp[0]);
+                        break;
+                    case 2:
+                        sum = Number(temp[0]) + Number(temp[1]) * 60;
+                        break;
+                    case 3:
+                        sum = Number(temp[0]) + Number(temp[1]) * 60 + Number(temp[2]) * 3600;
+                        break;
+                    case 4:
+                        sum = Number(temp[0]) + Number(temp[1]) * 60 + Number(temp[2]) * 3600 + Number(temp[3]) * 86400;
+                        break;
+                }
+                data.time.push(Number(sum));
+            }
+            console.log(data);
+        }
+    } else {
+        const PlayTit = document.querySelectorAll(".title .yt-simple-endpoint.style-scope.yt-formatted-string");
+        const titDoc = document.querySelectorAll('span#video-title.style-scope.ytd-playlist-panel-video-renderer');
+        const time = document.querySelectorAll("ytd-playlist-panel-renderer#playlist span.ytd-thumbnail-overlay-time-status-renderer");
+        console.log(titDoc);
+        console.log(time);
+        if (titDoc.length != time.length) {
+            refresh(1);
+            console.log("Watch not equal");
+            return null;
+        } else {
+            data.name = PlayTit[0].innerText;
+            for (it = 0; it < titDoc.length; it++) {
+                data.titles.push(titDoc[it].innerText);
+                let DomT, temp, sum;
+                DomT = time[it].innerText;
+                DomT.replace("\n", "").trim();
+                temp = DomT.split(":");
+                sum = 0;
+                temp.reverse();
+                switch (temp.length) {
+                    case 1:
+                        sum = Number(temp[0]);
+                        break;
+                    case 2:
+                        sum = Number(temp[0]) + Number(temp[1]) * 60;
+                        break;
+                    case 3:
+                        sum = Number(temp[0]) + Number(temp[1]) * 60 + Number(temp[2]) * 3600;
+                        break;
+                    case 4:
+                        sum = Number(temp[0]) + Number(temp[1]) * 60 + Number(temp[2]) * 3600 + Number(temp[3]) * 86400;
+                        break;
+                }
+                data.time.push(Number(sum));
+            }
+            console.log(data);
+        }
+    }
+    sendBack(data);
+}
+
+
+function sendBack(data) {
+    if (!(data.time.length)) {
+        data = "Data coming";
+    }
+    chrome.runtime.sendMessage(data, (response) => {
+        console.log('Response:', response);
+    });
+}

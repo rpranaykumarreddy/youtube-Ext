@@ -14,7 +14,6 @@ function getData() {
         console.trace(['Intial Value:', result, data]);
         optFix();
         addOption(opt[0], opt[1], opt[2]);
-
     });
 }
 
@@ -26,6 +25,7 @@ function onSelCha() {
     opt[1] = document.getElementById("endEle").value;
     console.trace('changed the select: ', opt[0], opt[1], opt[2]);
     calcLen(opt[0], opt[1]);
+    addOption(opt[0], opt[1], opt[2]);
 }
 
 function calcLen(s, e) {
@@ -53,11 +53,12 @@ function calcLen(s, e) {
 
 function secToStr(sec) {
     console.trace('secToStr is Opened');
-    let temp, min, hr;
-    hr = Math.floor(sec / 3600);
+    let temp, min, hr, day;
+    day = Math.floor(sec / 86400);
+    hr = Math.floor((sec - (day * 86400)) / 3600);
     min = Math.floor((sec - (hr * 3600)) / 60);
     sec = Math.floor(sec - (hr * 3600) - (min * 60));
-    temp = (hr ? (hr + (hr - 1 ? " hrs " : " hr ")) : "") + (min ? (min + (min - 1 ? " mins " : " min ")) : "") + (sec + (sec - 1 ? " secs " : " sec "));
+    temp = (day ? (day + (day - 1 ? " days " : " day ")) : "") + (hr ? (hr + (hr - 1 ? " hrs " : " hr ")) : "") + (min ? (min + (min - 1 ? " mins " : " min ")) : "") + (sec + (sec - 1 ? " secs " : " sec "));
     console.trace('SecToStr is Closed');
     return temp;
 }
@@ -72,7 +73,8 @@ function addOption(st, ed, len) {
         for (let i = 0; i <= ed; i++) {
             var x = document.createElement("OPTION");
             x.setAttribute("value", i);
-            t = document.createTextNode(data.titles[i]);
+            ser = Number(i) + 1;
+            t = document.createTextNode(ser + " - " + data.titles[i]);
             x.appendChild(t);
             if (i == st) {
                 console.trace(i + " " + st);
@@ -83,7 +85,8 @@ function addOption(st, ed, len) {
         for (let i = st; i < len; i++) {
             var x = document.createElement("OPTION");
             x.setAttribute("value", i);
-            t = document.createTextNode(data.titles[i]);
+            ser = Number(i) + 1;
+            t = document.createTextNode(ser + " - " + data.titles[i]);
             x.appendChild(t);
             if (i == ed) {
                 console.trace(i + " " + ed);
