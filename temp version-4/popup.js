@@ -4,18 +4,6 @@ console.trace("Popup.js");
 const intSet = setInterval(optFix, 100);
 getData();
 
-function optFix() {
-    let x = document.getElementById("sat").value;
-    if (x == "loading") {
-        opt[2] = data.titles.length;
-        if ((opt[2] != 0) && (opt[1] == -1)) {
-            opt[1] = data.titles.length;
-        }
-        addOption(opt[0], opt[1], opt[2]);
-        clearInterval(intSet);
-        console.trace("done option")
-    }
-}
 chrome.storage.onChanged.addListener(function(changes, namespace) {
     getData();
 });
@@ -24,7 +12,9 @@ function getData() {
     chrome.storage.local.get(['key'], function(result) {
         data = result.key;
         console.trace(['Intial Value:', result, data]);
-        addOption(0, data.titles.length - 1, data.titles.length);
+        optFix();
+        addOption(opt[0], opt[1], opt[2]);
+
     });
 }
 
@@ -34,7 +24,42 @@ document.getElementById("endEle").addEventListener('change', onSelCha);
 function onSelCha() {
     opt[0] = document.getElementById("sat").value;
     opt[1] = document.getElementById("endEle").value;
-    console.trace('changed the select: ', opt);
+    console.trace('changed the select: ', opt[0], opt[1], opt[2]);
+    calcLen(opt[0], opt[1]);
+}
+
+function calcLen(s, e) {
+    console.trace('calcLen is Opened');
+    out = 0;
+    for (let i = s; i <= e; i++) {
+        out += data.time[i];
+    }
+    console.trace('calcLen is Closed ' + secToStr(out));
+
+    bw = e - s + 1;
+    console.log("No of videos : " + bw + "\nAverage length of video : " + secToStr(out / bw) + "\nTotal length of playlist : " + secToStr(out) +
+        "\nAt 1.25 x : " + secToStr(out / 1.25) + "\nAt 1.50 x : " + secToStr(out / 1.5) + "\nAt 1.75 x : " + secToStr(out / 1.75) + "\nAt 2.00 x : " + secToStr(out / 2)
+    );
+    document.getElementById("NumVid").innerHTML = (bw + "/" + opt[2]);
+    document.getElementById("AvgLen").innerHTML = (secToStr(out / bw));
+    document.getElementById("TotLen").innerHTML = (secToStr(out));
+    document.getElementById("Tot1.25").innerHTML = (secToStr(out / 1.25));
+    document.getElementById("Tot1.50").innerHTML = (secToStr(out / 1.5));
+    document.getElementById("Tot1.75").innerHTML = (secToStr(out / 1.75));
+    document.getElementById("Tot2.00").innerHTML = (secToStr(out / 2));
+
+    return out;
+}
+
+function secToStr(sec) {
+    console.trace('secToStr is Opened');
+    let temp, min, hr;
+    hr = Math.floor(sec / 3600);
+    min = Math.floor((sec - (hr * 3600)) / 60);
+    sec = Math.floor(sec - (hr * 3600) - (min * 60));
+    temp = (hr ? (hr + (hr - 1 ? " hrs " : " hr ")) : "") + (min ? (min + (min - 1 ? " mins " : " min ")) : "") + (sec + (sec - 1 ? " secs " : " sec "));
+    console.trace('SecToStr is Closed');
+    return temp;
 }
 
 function addOption(st, ed, len) {
@@ -70,23 +95,16 @@ function addOption(st, ed, len) {
     console.trace("options updated");
 }
 
-function secToStr(sec) {
-    console.trace('secToStr is Opened');
-    let temp, min, hr;
-    hr = Math.floor(sec / 3600);
-    min = Math.floor((sec - (hr * 3600)) / 60);
-    sec = Math.floor(sec - (hr * 3600) - (min * 60));
-    temp = hr + (hr - 1 ? " hrs " : " hr ") + min + (min - 1 ? " mins " : " min ") + sec + (sec - 1 ? " secs " : " sec ");
-    console.trace('SecToStr is Closed');
-    return temp;
-}
-
-function calcLen(arr, s, e) {
-    console.trace('calcLen is Opened');
-    var out = 0;
-    for (i = s; i <= e; i++) {
-        out += arr[i];
+function optFix() {
+    let x = document.getElementById("sat").value;
+    if (x == "loading") {
+        opt[2] = data.titles.length;
+        if ((opt[2] != 0) && (opt[1] == -1)) {
+            opt[1] = data.titles.length - 1;
+        }
+        addOption(opt[0], opt[1], opt[2]);
+        clearInterval(intSet);
+        calcLen(opt[0], opt[1])
+        console.trace("done option")
     }
-    console.trace('calcLen is Closed ' + out);
-    return out;
 }
