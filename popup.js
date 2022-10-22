@@ -26,18 +26,20 @@ document.getElementById("GitLink").addEventListener('click', () => {
 });
 
 function onSelCha() {
-    opt[0] = document.getElementById("sat").value;
-    opt[1] = document.getElementById("endEle").value;
+    ins = Number(document.getElementById("sat").value);
+    ine = Number(document.getElementById("endEle").value);
+    opt[0] = ins;
+    opt[1] = ine;
+    addOption(ins, ine, opt[2]);
     console.trace('changed the select: ', opt[0], opt[1], opt[2]);
-    calcLen(opt[0], opt[1]);
-    addOption(opt[0], opt[1], opt[2]);
+    calcLen(ins, ine);
 }
 
 function calcLen(s, e) {
     console.trace('calcLen is Opened');
     out = 0;
-    for (let i = s; i <= e; i++) {
-        out += data.time[i];
+    for (abc = s; abc <= e; abc++) {
+        out += data.time[abc];
     }
     console.trace('calcLen is Closed ' + secToStr(out));
 
@@ -57,14 +59,12 @@ function calcLen(s, e) {
 }
 
 function secToStr(sec) {
-    console.trace('secToStr is Opened');
     let temp, min, hr, day;
     day = Math.floor(sec / 86400);
     hr = Math.floor((sec - (day * 86400)) / 3600);
     min = Math.floor((sec - (hr * 3600) - (day * 86400)) / 60);
     sec = Math.floor(sec - (hr * 3600) - (min * 60) - (day * 86400));
     temp = (day ? (day + (day - 1 ? " days " : " day ")) : "") + (hr ? (hr + (hr - 1 ? " hrs " : " hr ")) : "") + (min ? (min + (min - 1 ? " mins " : " min ")) : "") + (sec + (sec - 1 ? " secs " : " sec "));
-    console.trace('SecToStr is Closed');
     return temp;
 }
 
