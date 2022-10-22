@@ -12,6 +12,7 @@ function getData() {
     chrome.storage.local.get(['key'], function(result) {
         data = result.key;
         console.trace(['Intial Value:', result, data]);
+        opt[2] = data.titles.length;
         optFix();
         addOption(opt[0], opt[1], opt[2]);
     });
@@ -54,7 +55,6 @@ function calcLen(s, e) {
     document.getElementById("Tot1.50").innerHTML = (secToStr(out / 1.5));
     document.getElementById("Tot1.75").innerHTML = (secToStr(out / 1.75));
     document.getElementById("Tot2.00").innerHTML = (secToStr(out / 2));
-
     return out;
 }
 
@@ -69,6 +69,14 @@ function secToStr(sec) {
 }
 
 function addOption(st, ed, len) {
+    if (ed > (len - 1)) {
+        ed = len - 1;
+    }
+    if (st < 0) {
+        st = 0;
+    }
+
+    document.getElementById("PlayTitle").innerHTML = data.name;
     console.trace([st, ed, len]);
     if (len) {
         var satEle = document.getElementById("sat");

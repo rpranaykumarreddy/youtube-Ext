@@ -37,8 +37,13 @@
             overflow: hidden;
         }
         
+        h2,
+        h3 {
+            margin: 8px 0px;
+        }
+        
         div {
-            padding: 25px 20px;
+            padding: 10px 20px 10px;
         }
         
         select,
@@ -86,6 +91,10 @@
 
 <body>
     <div>
+        <header class="tecen">
+            <h3 class="cblue">Youtube Playlist Ranger</h3>
+            <h2 id="PlayTitle"></h2>
+        </header>
         <label for="sat" class="cpink tebold">Choose the Starting Video:</label><br>
         <select id="sat" name="sat">
             <option value="loading">loading Videos data...</option>
@@ -104,8 +113,9 @@
         <p>At 1.75x : <span id="Tot1.75"></span></p>
         <p>At 2.00x : <span id="Tot2.00"></span></p>
         <br>
-        <footer class="tecen">Made with <span style="color:red !important">&#10084;</span> by <a id="GitLink" href="https://github.com/rpranaykumarreddy">R Pranay Kumar
-                Reddy</a>
+        <footer class="tecen">
+            <h3> Made with <span style="color:red !important">&#10084;</span> by <a id="GitLink" href="https://github.com/rpranaykumarreddy">R Pranay Kumar
+                    Reddy</a></h3>
         </footer>
     </div>
 </body>

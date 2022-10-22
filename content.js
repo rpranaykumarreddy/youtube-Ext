@@ -1,11 +1,12 @@
 console.log('Content.js');
+sync(5);
 window.addEventListener("load", () => {
     start();
-    //sync(5);
 });
 var data = { name: "", titles: [], time: [], status: "done" };
 
 async function sync(sec) {
+    start();
     var intTi = await setInterval(start, sec * 1000);
 }
 
@@ -16,7 +17,8 @@ function refresh(sec) {
 function start() {
     var urlStr = window.location.href;
     var playKey;
-    playKey = urlStr.split("?")[0].includes("playlist");
+    playKey = urlStr.split("?")[0].includes("playlist") ? true : (urlStr.split("?")[0].includes("watch") ? false : "null");
+    console.log("play key: " + playKey);
     var docChe = document.querySelectorAll('.ytd-thumbnail-overlay-time-status-renderer');
     if (docChe.length) {
         console.log(docChe.length, "move on");
@@ -25,12 +27,12 @@ function start() {
         console.log(docChe.length, "time on");
         refresh(1);
     }
-
 }
 
 function makeData(pK) {
     data = { name: "", titles: [], time: [] };
-    if (pK) {
+    if (pK === true) {
+        console.log("Enter pk true");
         const cheTyPL = document.querySelectorAll('[aria-label="Edit description"]');
         var PlayTit;
         if (cheTyPL.length) {
@@ -73,7 +75,8 @@ function makeData(pK) {
             }
             console.log(data);
         }
-    } else {
+    } else if (pK === false) {
+        console.log("Enter pk false");
         const PlayTit = document.querySelectorAll(".title .yt-simple-endpoint.style-scope.yt-formatted-string");
         const titDoc = document.querySelectorAll('span#video-title.style-scope.ytd-playlist-panel-video-renderer');
         const time = document.querySelectorAll("ytd-playlist-panel-renderer#playlist span.ytd-thumbnail-overlay-time-status-renderer");
@@ -111,6 +114,8 @@ function makeData(pK) {
             }
             console.log(data);
         }
+    } else {
+        console.log("Enter pk null");
     }
     sendBack(data);
 }
