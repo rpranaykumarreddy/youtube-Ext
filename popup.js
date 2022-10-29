@@ -10,6 +10,7 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 
 function getData() {
     chrome.storage.local.get(['key'], function(result) {
+        console.log(result);
         data = result.key;
         console.trace(['Intial Value:', result, data]);
         opt[2] = data.titles.length;

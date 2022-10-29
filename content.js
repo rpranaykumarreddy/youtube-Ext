@@ -7,7 +7,7 @@ var data = { name: "", titles: [], time: [], status: "done" };
 
 async function sync(sec) {
     start();
-    var intTi = await setInterval(start, sec * 1000);
+    intTi = await setInterval(start, (sec * 1000));
 }
 
 function refresh(sec) {
@@ -40,14 +40,19 @@ function makeData(pK) {
         } else {
             PlayTit = document.querySelectorAll("h1#title.style-scope.ytd-playlist-sidebar-primary-info-renderer");
         }
+
+        if (!(PlayTit[0])){
+            PlayTit=document.querySelectorAll("yt-formatted-string#text.style-scope");
+        }
         const titDoc = document.querySelectorAll('a#video-title.yt-simple-endpoint.style-scope.ytd-playlist-video-renderer');
         const time = document.querySelectorAll("span.ytd-thumbnail-overlay-time-status-renderer");
-        console.log(titDoc);
-        console.log(time);
+        //console.log(titDoc);
+        //console.log(time);
         if (titDoc.length != time.length) {
             refresh(1);
             return null;
         } else {
+            data = { name: "", titles: [], time: [] };
             data.name = PlayTit[0].innerText;
             for (it = 0; it < titDoc.length; it++) {
                 data.titles.push(titDoc[it].innerText);
@@ -80,13 +85,14 @@ function makeData(pK) {
         const PlayTit = document.querySelectorAll(".title .yt-simple-endpoint.style-scope.yt-formatted-string");
         const titDoc = document.querySelectorAll('span#video-title.style-scope.ytd-playlist-panel-video-renderer');
         const time = document.querySelectorAll("ytd-playlist-panel-renderer#playlist span.ytd-thumbnail-overlay-time-status-renderer");
-        console.log(titDoc);
-        console.log(time);
+        //console.log(titDoc);
+        //console.log(time);
         if (titDoc.length != time.length) {
             refresh(1);
             console.log("Watch not equal");
             return null;
         } else {
+            data = { name: "", titles: [], time: [] };
             data.name = PlayTit[0].innerText;
             for (it = 0; it < titDoc.length; it++) {
                 data.titles.push(titDoc[it].innerText);
@@ -122,10 +128,15 @@ function makeData(pK) {
 
 
 function sendBack(data) {
-    if (!(data.time.length)) {
-        data = "Data coming";
+    //var page_state = document.visibilityState;
+    if (!document.hidden) {
+        if (!(data.time.length)) {
+            data = "Data coming";
+        }
+        chrome.runtime.sendMessage(data, (response) => {
+            console.log('Response:', response);
+        });
+    } else {
+        console.log("data not sent has page is not inactive");
     }
-    chrome.runtime.sendMessage(data, (response) => {
-        console.log('Response:', response);
-    });
 }
