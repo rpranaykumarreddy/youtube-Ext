@@ -21,7 +21,7 @@ function getData() {
 document.getElementById("sat").addEventListener('change', onSelCha);
 document.getElementById("endEle").addEventListener('change', onSelCha);
 document.getElementById("GitLink").addEventListener('click', () => {
-    var newURL = "https://github.com/rpranaykumarreddy";
+    var newURL = "https://pranay.wethinc.in/";
     chrome.tabs.create({ url: newURL });
 
 });
