@@ -4,12 +4,17 @@ console.trace("Popup.js");
 const intSet = setInterval(optFix, 100);
 getData();
 
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-    getData();
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    chrome.storage.local.get(['key'], function (result) {
+        console.log(result);
+        data = result.key;
+        console.trace(['Updated', result, data]);
+        addOption(opt[0], opt[1], opt[2]);
+    });
 });
 
 function getData() {
-    chrome.storage.local.get(['key'], function(result) {
+    chrome.storage.local.get(['key'], function (result) {
         console.log(result);
         data = result.key;
         console.trace(['Intial Value:', result, data]);
