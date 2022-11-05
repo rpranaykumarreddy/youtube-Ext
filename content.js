@@ -1,5 +1,8 @@
 console.log('Content.js');
 
+
+var hidPrev = document.hidden;
+
 var open = false;
 function OpenOb() {
     const elementToObserve = document.querySelector("#content");
@@ -8,6 +11,20 @@ function OpenOb() {
     });
     observer.observe(elementToObserve, { subtree: true, childList: true });
     console.log("open Ob");
+    setInterval(function () {
+        console.log("enter hid fun");
+        if (document.hidden != hidPrev) {
+            console.log("diff status hid fun");
+            if (!document.hidden) {
+                chrome.runtime.sendMessage(data, (response) => {
+                    console.log('Response:', response);
+                    prevData = data;
+                });
+                start();
+            }
+            hidPrev = document.hidden;
+        }
+    }, 100);
 }
 //data structure
 var prevData = { name: "", titles: [], time: [], status: "open" };
@@ -166,4 +183,3 @@ function sendBack(data) {
         console.log("data not sent has page is not inactive");
     }
 }
-
