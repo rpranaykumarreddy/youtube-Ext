@@ -87,7 +87,7 @@ function makeData(pK) {
         const time = document.querySelectorAll("span.ytd-thumbnail-overlay-time-status-renderer");
         //console.log(titDoc);
         //console.log(time);
-        if (titDoc.length != time.length) {
+        if (titDoc.length > time.length) {
             refresh(1);
             console.log("Watch not equal");
             return null;
