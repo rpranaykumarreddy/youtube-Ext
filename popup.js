@@ -93,7 +93,7 @@ function addOption(st, ed, len) {
             var x = document.createElement("OPTION");
             x.setAttribute("value", i);
             ser = Number(i) + 1;
-            t = document.createTextNode(ser + " - " + data.titles[i]);
+            t = document.createTextNode(ser + " - " + data.titles[i].slice(0, 40));
             x.appendChild(t);
             if (i == st) {
                 console.trace(i + " " + st);
@@ -105,7 +105,7 @@ function addOption(st, ed, len) {
             var x = document.createElement("OPTION");
             x.setAttribute("value", i);
             ser = Number(i) + 1;
-            t = document.createTextNode(ser + " - " + data.titles[i]);
+            t = document.createTextNode(ser + " - " + data.titles[i].slice(0, 40));
             x.appendChild(t);
             if (i == ed) {
                 console.trace(i + " " + ed);
