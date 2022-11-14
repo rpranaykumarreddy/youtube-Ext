@@ -6,7 +6,7 @@ Calculate the time taken to watch a range of videos in a youtube playlist along 
 ## Deployment
 Install this extension from Chrome Webstore
 
- - [Youtube Playlist Ranger | Chrome webstore](https://chrome.google.com/webstore/detail/alpnapppdjbdbbaagjpchaaipphcnejo)
+ - [Youtube Playlist Ranger &#124; Chrome webstore](https://chrome.google.com/webstore/detail/alpnapppdjbdbbaagjpchaaipphcnejo)
  
  or
 
